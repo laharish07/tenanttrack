@@ -1,73 +1,198 @@
-# Welcome to your Lovable project
+# 🏢 TenantTrack - Organization Management System
 
-## Project info
+A modern, full-stack organization and tenant management platform built with React, TypeScript, and Supabase.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+[![Live Demo](https://img.shields.io/badge/demo-live-success)](https://tenanttrack.pages.dev/)
+[![Built with Lovable](https://img.shields.io/badge/built%20with-Lovable-ff69b4)](https://lovable.dev)
+[![Deployed on Cloudflare](https://img.shields.io/badge/deployed%20on-Cloudflare%20Pages-orange)](https://pages.cloudflare.com/)
 
-## How can I edit this code?
+## 🚀 Live Demo
 
-There are several ways of editing your application.
+**[View Live Application →](https://tenanttrack.pages.dev/)**
 
-**Use Lovable**
+## ✨ Features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+- **Organization Management** - Create and manage multiple organizations/tenants
+- **User Authentication** - Secure login and registration with Supabase Auth
+- **Real-time Data** - Live updates using Supabase real-time subscriptions
+- **Responsive Design** - Modern UI built with Tailwind CSS and shadcn/ui
+- **Role-based Access** - Manage user permissions and access levels
+- **Dashboard Analytics** - Track key metrics and insights
+- **Dark Mode Support** - Beautiful interface in light and dark themes
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🛠️ Tech Stack
 
-**Use your preferred IDE**
+- **Frontend Framework:** React 18 with TypeScript
+- **Build Tool:** Vite
+- **Styling:** Tailwind CSS
+- **UI Components:** shadcn/ui
+- **Backend/Database:** Supabase (PostgreSQL)
+- **Authentication:** Supabase Auth
+- **Deployment:** Cloudflare Pages
+- **Version Control:** Git & GitHub
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 📋 Prerequisites
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Before you begin, ensure you have the following installed:
+- Node.js (v18 or higher)
+- npm or bun package manager
+- Git
 
-Follow these steps:
+## 🔧 Installation & Setup
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### 1. Clone the Repository
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+```bash
+git clone https://github.com/Kathitjoshi/tenanttrack.git
+cd tenanttrack
+```
 
-# Step 3: Install the necessary dependencies.
-npm i
+### 2. Install Dependencies
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+npm install
+```
+
+### 3. Environment Variables
+
+Create a `.env` file in the root directory and add your Supabase credentials:
+
+```env
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_anon_key
+VITE_SUPABASE_PROJECT_ID=your_project_id
+```
+
+To get these credentials:
+1. Go to [Supabase Dashboard](https://supabase.com/dashboard)
+2. Select your project
+3. Go to Settings → API
+4. Copy the Project URL and anon/public key
+
+### 4. Run Development Server
+
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The application will be available at `http://localhost:5173`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### 5. Build for Production
 
-**Use GitHub Codespaces**
+```bash
+npm run build
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+The production-ready files will be in the `dist` folder.
 
-## What technologies are used for this project?
+## 🚀 Deployment
 
-This project is built with:
+### Deploy to Cloudflare Pages
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+1. **Connect to GitHub**
+   - Go to [Cloudflare Dashboard](https://dash.cloudflare.com)
+   - Navigate to Workers & Pages → Create application → Pages
+   - Connect your GitHub repository
 
-## How can I deploy this project?
+2. **Configure Build Settings**
+   - Framework preset: `None`
+   - Build command: `npm run build`
+   - Build output directory: `dist`
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+3. **Add Environment Variables**
+   - Add your Supabase credentials as environment variables
+   - Variable names: `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_SUPABASE_PROJECT_ID`
 
-## Can I connect a custom domain to my Lovable project?
+4. **Deploy**
+   - Click "Save and Deploy"
+   - Your site will be live at `your-project-name.pages.dev`
 
-Yes, you can!
+## 📁 Project Structure
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+```
+tenanttrack/
+├── public/              # Static assets
+├── src/
+│   ├── components/      # Reusable UI components
+│   ├── pages/          # Application pages/routes
+│   ├── lib/            # Utility functions and configurations
+│   ├── hooks/          # Custom React hooks
+│   ├── types/          # TypeScript type definitions
+│   └── App.tsx         # Main application component
+├── supabase/           # Supabase configuration and migrations
+├── .env                # Environment variables (not committed)
+├── package.json        # Project dependencies
+├── vite.config.ts      # Vite configuration
+├── tailwind.config.ts  # Tailwind CSS configuration
+└── tsconfig.json       # TypeScript configuration
+```
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## 🔑 Key Features Explained
+
+### Organization Management
+- Create and manage multiple organizations
+- Assign users to specific organizations
+- Organization-specific settings and configurations
+
+### Authentication & Security
+- Email/password authentication via Supabase
+- Row-level security (RLS) policies
+- Protected routes and API endpoints
+
+### Real-time Updates
+- Live data synchronization across clients
+- Instant updates when data changes
+- WebSocket-based communication
+
+## 🧪 Testing
+
+```bash
+# Run tests
+npm run test
+
+# Run tests with coverage
+npm run test:coverage
+```
+
+## 📝 Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build locally
+- `npm run lint` - Run ESLint
+- `npm run test` - Run tests
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Author
+
+**Kathit Joshi**
+
+- GitHub: [@Kathitjoshi](https://github.com/Kathitjoshi)
+
+## 🙏 Acknowledgments
+
+- Built with [Lovable](https://lovable.dev) - AI-powered development platform
+- UI components from [shadcn/ui](https://ui.shadcn.com/)
+- Deployed on [Cloudflare Pages](https://pages.cloudflare.com/)
+- Backend powered by [Supabase](https://supabase.com/)
+
+## 📞 Support
+
+If you encounter any issues or have questions, please [open an issue](https://github.com/Kathitjoshi/tenanttrack/issues) on GitHub.
+
+---
+
+⭐ Star this repository if you find it helpful!
