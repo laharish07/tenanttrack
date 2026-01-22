@@ -20,6 +20,7 @@ interface OrganizationDetailsSheetProps {
   onOpenChange: (open: boolean) => void;
   onEdit: (org: Organization) => void;
   onDelete: (org: Organization) => void;
+  onManageMembers: (org: Organization) => void;
 }
 
 export function OrganizationDetailsSheet({
@@ -28,6 +29,7 @@ export function OrganizationDetailsSheet({
   onOpenChange,
   onEdit,
   onDelete,
+  onManageMembers,
 }: OrganizationDetailsSheetProps) {
   if (!organization) return null;
 
@@ -116,6 +118,17 @@ export function OrganizationDetailsSheet({
 
           {/* Actions */}
           <div className="space-y-3">
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => {
+                onManageMembers(organization);
+                onOpenChange(false);
+              }}
+            >
+              <Users className="w-4 h-4 mr-2" />
+              Manage Members
+            </Button>
             <Button
               className="w-full"
               onClick={() => {

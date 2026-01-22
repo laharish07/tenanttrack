@@ -8,6 +8,7 @@ import { OrganizationTable } from '@/components/organizations/OrganizationTable'
 import { CreateOrganizationDialog } from '@/components/organizations/CreateOrganizationDialog';
 import { OrganizationDetailsSheet } from '@/components/organizations/OrganizationDetailsSheet';
 import { DeleteOrganizationDialog } from '@/components/organizations/DeleteOrganizationDialog';
+import { MemberManagementSheet } from '@/components/organizations/MemberManagementSheet';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Plus, Search, Building2, LogOut, Loader2 } from 'lucide-react';
@@ -21,6 +22,7 @@ const Index = () => {
   const [editingOrg, setEditingOrg] = useState<Organization | null>(null);
   const [viewingOrg, setViewingOrg] = useState<Organization | null>(null);
   const [deletingOrg, setDeletingOrg] = useState<Organization | null>(null);
+  const [managingMembersOrg, setManagingMembersOrg] = useState<Organization | null>(null);
 
   if (authLoading) {
     return (
@@ -129,6 +131,7 @@ const Index = () => {
             onView={handleView}
             onEdit={handleEdit}
             onDelete={setDeletingOrg}
+            onManageMembers={setManagingMembersOrg}
           />
         ) : (
           <div className="text-center py-16 bg-card rounded-lg border">
@@ -167,6 +170,7 @@ const Index = () => {
         onOpenChange={(open) => !open && setViewingOrg(null)}
         onEdit={handleEdit}
         onDelete={setDeletingOrg}
+        onManageMembers={setManagingMembersOrg}
       />
 
       <DeleteOrganizationDialog
@@ -174,6 +178,12 @@ const Index = () => {
         open={!!deletingOrg}
         onOpenChange={(open) => !open && setDeletingOrg(null)}
         onConfirm={handleDelete}
+      />
+
+      <MemberManagementSheet
+        organization={managingMembersOrg}
+        open={!!managingMembersOrg}
+        onOpenChange={(open) => !open && setManagingMembersOrg(null)}
       />
     </div>
   );

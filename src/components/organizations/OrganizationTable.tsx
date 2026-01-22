@@ -26,6 +26,7 @@ interface OrganizationTableProps {
   onView: (org: Organization) => void;
   onEdit: (org: Organization) => void;
   onDelete: (org: Organization) => void;
+  onManageMembers?: (org: Organization) => void;
 }
 
 export function OrganizationTable({
@@ -33,6 +34,7 @@ export function OrganizationTable({
   onView,
   onEdit,
   onDelete,
+  onManageMembers,
 }: OrganizationTableProps) {
   return (
     <div className="rounded-lg border bg-card shadow-card overflow-hidden">
@@ -91,6 +93,12 @@ export function OrganizationTable({
                       <Eye className="mr-2 h-4 w-4" />
                       View details
                     </DropdownMenuItem>
+                    {onManageMembers && (
+                      <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onManageMembers(org); }}>
+                        <Users className="mr-2 h-4 w-4" />
+                        Manage members
+                      </DropdownMenuItem>
+                    )}
                     <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onEdit(org); }}>
                       <Pencil className="mr-2 h-4 w-4" />
                       Edit settings
