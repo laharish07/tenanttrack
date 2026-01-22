@@ -23,7 +23,7 @@ export function AuthForm() {
       if (isLogin) {
         const { error } = await signIn(email, password);
         if (error) throw error;
-        toast.success('Welcome back!');
+        toast.success('Welcome to TenantTrack!');
       } else {
         const { error } = await signUp(email, password, displayName);
         if (error) throw error;

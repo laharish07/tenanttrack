@@ -78,11 +78,11 @@ const Index = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-primary">
+            <div className="p-2 rounded-lg bg-primary">
                 <Building2 className="w-5 h-5 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-xl font-bold">Organizations</h1>
+                <h1 className="text-xl font-bold">TenantTrack</h1>
                 <p className="text-sm text-muted-foreground">Manage your tenants and subscriptions</p>
               </div>
             </div>
