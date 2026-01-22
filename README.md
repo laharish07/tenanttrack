@@ -85,47 +85,8 @@ npm run build
 
 The production-ready files will be in the `dist` folder.
 
-## 🚀 Deployment
 
-### Deploy to Cloudflare Pages
 
-1. **Connect to GitHub**
-   - Go to [Cloudflare Dashboard](https://dash.cloudflare.com)
-   - Navigate to Workers & Pages → Create application → Pages
-   - Connect your GitHub repository
-
-2. **Configure Build Settings**
-   - Framework preset: `None`
-   - Build command: `npm run build`
-   - Build output directory: `dist`
-
-3. **Add Environment Variables**
-   - Add your Supabase credentials as environment variables
-   - Variable names: `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_SUPABASE_PROJECT_ID`
-
-4. **Deploy**
-   - Click "Save and Deploy"
-   - Your site will be live at `your-project-name.pages.dev`
-
-## 📁 Project Structure
-
-```
-tenanttrack/
-├── public/              # Static assets
-├── src/
-│   ├── components/      # Reusable UI components
-│   ├── pages/          # Application pages/routes
-│   ├── lib/            # Utility functions and configurations
-│   ├── hooks/          # Custom React hooks
-│   ├── types/          # TypeScript type definitions
-│   └── App.tsx         # Main application component
-├── supabase/           # Supabase configuration and migrations
-├── .env                # Environment variables (not committed)
-├── package.json        # Project dependencies
-├── vite.config.ts      # Vite configuration
-├── tailwind.config.ts  # Tailwind CSS configuration
-└── tsconfig.json       # TypeScript configuration
-```
 
 ## 🔑 Key Features Explained
 
@@ -176,17 +137,15 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👨‍💻 Author
 
-**Kathit Joshi**
-
-- GitHub: [@Kathitjoshi](https://github.com/Kathitjoshi)
 
 ## 🙏 Acknowledgments
 
 - UI components from [shadcn/ui](https://ui.shadcn.com/)
 - Deployed on [Cloudflare Pages](https://pages.cloudflare.com/)
 - Backend powered by [Supabase](https://supabase.com/)
+- [Laharish S](https://github.com/laharish07)
+- Kathit Joshi(Me)
 
 ## 📞 Support
 
