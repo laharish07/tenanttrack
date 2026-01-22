@@ -12,7 +12,7 @@ import { OrganizationAvatar } from './OrganizationAvatar';
 import { PlanBadge } from './PlanBadge';
 import { StatusBadge } from './StatusBadge';
 import { format } from 'date-fns';
-import { Pencil, Trash2, Users, FolderKanban, Check, X } from 'lucide-react';
+import { Pencil, Trash2, Users, FolderKanban, Check } from 'lucide-react';
 
 interface OrganizationDetailsSheetProps {
   organization: Organization | null;
@@ -39,7 +39,7 @@ export function OrganizationDetailsSheet({
         <SheetHeader className="space-y-4">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
-              <OrganizationAvatar name={organization.name} logo={organization.logo} size="lg" />
+              <OrganizationAvatar name={organization.name} logo={organization.logo_url ?? undefined} size="lg" />
               <div>
                 <SheetTitle className="text-xl">{organization.name}</SheetTitle>
                 <SheetDescription className="mt-0.5">/{organization.slug}</SheetDescription>
@@ -60,9 +60,9 @@ export function OrganizationDetailsSheet({
                 <Users className="w-4 h-4" />
                 <span className="text-sm font-medium">Members</span>
               </div>
-              <p className="text-2xl font-bold">{organization.memberCount}</p>
+              <p className="text-2xl font-bold">{organization.member_count ?? 0}</p>
               <p className="text-xs text-muted-foreground mt-0.5">
-                of {planLimits.maxUsers === -1 ? 'unlimited' : planLimits.maxUsers}
+                of {organization.max_users === -1 ? 'unlimited' : organization.max_users}
               </p>
             </div>
             <div className="bg-secondary/50 rounded-lg p-4">
@@ -72,7 +72,7 @@ export function OrganizationDetailsSheet({
               </div>
               <p className="text-2xl font-bold">—</p>
               <p className="text-xs text-muted-foreground mt-0.5">
-                max {planLimits.maxProjects === -1 ? 'unlimited' : planLimits.maxProjects}
+                max {organization.max_projects === -1 ? 'unlimited' : organization.max_projects}
               </p>
             </div>
           </div>
@@ -83,7 +83,7 @@ export function OrganizationDetailsSheet({
           <div>
             <h3 className="font-semibold mb-3">Plan Features</h3>
             <ul className="space-y-2">
-              {organization.settings.features.map((feature) => (
+              {planLimits.features.map((feature) => (
                 <li key={feature} className="flex items-center gap-2 text-sm">
                   <div className="p-0.5 rounded-full bg-primary/10">
                     <Check className="w-3 h-3 text-primary" />
@@ -101,13 +101,13 @@ export function OrganizationDetailsSheet({
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Created</span>
               <span className="font-medium">
-                {format(new Date(organization.createdAt), 'MMM d, yyyy')}
+                {format(new Date(organization.created_at), 'MMM d, yyyy')}
               </span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Last updated</span>
               <span className="font-medium">
-                {format(new Date(organization.updatedAt), 'MMM d, yyyy')}
+                {format(new Date(organization.updated_at), 'MMM d, yyyy')}
               </span>
             </div>
           </div>
