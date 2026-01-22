@@ -147,6 +147,22 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      add_organization_member: {
+        Args: {
+          member_role?: Database["public"]["Enums"]["member_role"]
+          member_user_id: string
+          org_id: string
+        }
+        Returns: string
+      }
+      create_organization_with_owner: {
+        Args: {
+          org_name: string
+          org_plan?: Database["public"]["Enums"]["subscription_plan"]
+          org_slug: string
+        }
+        Returns: string
+      }
       has_app_role: {
         Args: { check_role: Database["public"]["Enums"]["app_role"] }
         Returns: boolean

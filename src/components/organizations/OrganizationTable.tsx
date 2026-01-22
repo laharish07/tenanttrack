@@ -57,7 +57,7 @@ export function OrganizationTable({
             >
               <TableCell>
                 <div className="flex items-center gap-3">
-                  <OrganizationAvatar name={org.name} logo={org.logo} size="sm" />
+                  <OrganizationAvatar name={org.name} logo={org.logo_url ?? undefined} size="sm" />
                   <div>
                     <p className="font-medium">{org.name}</p>
                     <p className="text-xs text-muted-foreground">/{org.slug}</p>
@@ -73,11 +73,11 @@ export function OrganizationTable({
               <TableCell>
                 <div className="flex items-center gap-1.5 text-muted-foreground">
                   <Users className="w-4 h-4" />
-                  <span>{org.memberCount}</span>
+                  <span>{org.member_count ?? 0}</span>
                 </div>
               </TableCell>
               <TableCell className="text-muted-foreground text-sm">
-                {formatDistanceToNow(new Date(org.createdAt), { addSuffix: true })}
+                {formatDistanceToNow(new Date(org.created_at), { addSuffix: true })}
               </TableCell>
               <TableCell>
                 <DropdownMenu>

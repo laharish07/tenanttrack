@@ -7,7 +7,7 @@ interface StatsCardsProps {
 
 export function StatsCards({ organizations }: StatsCardsProps) {
   const totalOrgs = organizations.length;
-  const totalMembers = organizations.reduce((sum, org) => sum + org.memberCount, 0);
+  const totalMembers = organizations.reduce((sum, org) => sum + (org.member_count ?? 0), 0);
   const enterpriseOrgs = organizations.filter((org) => org.plan === 'enterprise').length;
   const suspendedOrgs = organizations.filter((org) => org.status === 'suspended').length;
 

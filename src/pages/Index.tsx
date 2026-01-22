@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { Organization } from '@/types/organization';
-import { mockOrganizations } from '@/data/mockOrganizations';
+import { Organization, SubscriptionPlan } from '@/types/organization';
+import { useOrganizations } from '@/hooks/useOrganizations';
+import { useAuth } from '@/hooks/useAuth';
+import { AuthForm } from '@/components/auth/AuthForm';
 import { StatsCards } from '@/components/organizations/StatsCards';
 import { OrganizationTable } from '@/components/organizations/OrganizationTable';
 import { CreateOrganizationDialog } from '@/components/organizations/CreateOrganizationDialog';
@@ -8,16 +10,29 @@ import { OrganizationDetailsSheet } from '@/components/organizations/Organizatio
 import { DeleteOrganizationDialog } from '@/components/organizations/DeleteOrganizationDialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Plus, Search, Building2 } from 'lucide-react';
-import { toast } from 'sonner';
+import { Plus, Search, Building2, LogOut, Loader2 } from 'lucide-react';
 
 const Index = () => {
-  const [organizations, setOrganizations] = useState<Organization[]>(mockOrganizations);
+  const { isAuthenticated, isLoading: authLoading, user, signOut } = useAuth();
+  const { organizations, isLoading, createOrganization, updateOrganization, deleteOrganization } = useOrganizations();
+  
   const [searchQuery, setSearchQuery] = useState('');
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [editingOrg, setEditingOrg] = useState<Organization | null>(null);
   const [viewingOrg, setViewingOrg] = useState<Organization | null>(null);
   const [deletingOrg, setDeletingOrg] = useState<Organization | null>(null);
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <AuthForm />;
+  }
 
   const filteredOrganizations = organizations.filter(
     (org) =>
@@ -25,24 +40,22 @@ const Index = () => {
       org.slug.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleCreateOrUpdate = (orgData: Partial<Organization>) => {
+  const handleCreateOrUpdate = async (data: { name: string; slug: string; plan: SubscriptionPlan }) => {
     if (editingOrg) {
-      setOrganizations((prev) =>
-        prev.map((org) =>
-          org.id === editingOrg.id ? { ...org, ...orgData } as Organization : org
-        )
-      );
-      toast.success('Organization updated successfully');
+      await updateOrganization.mutateAsync({ 
+        id: editingOrg.id,
+        name: data.name,
+        plan: data.plan,
+      });
       setEditingOrg(null);
     } else {
-      setOrganizations((prev) => [orgData as Organization, ...prev]);
-      toast.success('Organization created successfully');
+      await createOrganization.mutateAsync(data);
     }
+    setCreateDialogOpen(false);
   };
 
-  const handleDelete = (org: Organization) => {
-    setOrganizations((prev) => prev.filter((o) => o.id !== org.id));
-    toast.success(`${org.name} has been deleted`);
+  const handleDelete = async (org: Organization) => {
+    await deleteOrganization.mutateAsync(org.id);
   };
 
   const handleView = (org: Organization) => {
@@ -52,6 +65,10 @@ const Index = () => {
   const handleEdit = (org: Organization) => {
     setEditingOrg(org);
     setCreateDialogOpen(true);
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
   };
 
   return (
@@ -69,10 +86,16 @@ const Index = () => {
                 <p className="text-sm text-muted-foreground">Manage your tenants and subscriptions</p>
               </div>
             </div>
-            <Button onClick={() => setCreateDialogOpen(true)}>
-              <Plus className="w-4 h-4 mr-2" />
-              New Organization
-            </Button>
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-muted-foreground hidden sm:block">{user?.email}</span>
+              <Button onClick={() => setCreateDialogOpen(true)}>
+                <Plus className="w-4 h-4 mr-2" />
+                New Organization
+              </Button>
+              <Button variant="ghost" size="icon" onClick={handleSignOut}>
+                <LogOut className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </header>
@@ -96,7 +119,11 @@ const Index = () => {
         </div>
 
         {/* Table */}
-        {filteredOrganizations.length > 0 ? (
+        {isLoading ? (
+          <div className="flex items-center justify-center py-16">
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+          </div>
+        ) : filteredOrganizations.length > 0 ? (
           <OrganizationTable
             organizations={filteredOrganizations}
             onView={handleView}
@@ -131,6 +158,7 @@ const Index = () => {
         }}
         onSubmit={handleCreateOrUpdate}
         editingOrg={editingOrg}
+        isSubmitting={createOrganization.isPending || updateOrganization.isPending}
       />
 
       <OrganizationDetailsSheet

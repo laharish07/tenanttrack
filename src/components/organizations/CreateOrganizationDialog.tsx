@@ -17,14 +17,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Organization, SubscriptionPlan, PLAN_LIMITS } from '@/types/organization';
+import { Organization, SubscriptionPlan } from '@/types/organization';
 import { Building2 } from 'lucide-react';
 
 interface CreateOrganizationDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSubmit: (org: Partial<Organization>) => void;
+  onSubmit: (data: { name: string; slug: string; plan: SubscriptionPlan }) => void;
   editingOrg?: Organization | null;
+  isSubmitting?: boolean;
 }
 
 function generateSlug(name: string): string {
@@ -39,11 +40,11 @@ export function CreateOrganizationDialog({
   onOpenChange,
   onSubmit,
   editingOrg,
+  isSubmitting = false,
 }: CreateOrganizationDialogProps) {
   const [name, setName] = useState(editingOrg?.name || '');
   const [slug, setSlug] = useState(editingOrg?.slug || '');
   const [plan, setPlan] = useState<SubscriptionPlan>(editingOrg?.plan || 'free');
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const isEditing = !!editingOrg;
 
@@ -54,35 +55,29 @@ export function CreateOrganizationDialog({
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
-    const orgData: Partial<Organization> = {
-      id: editingOrg?.id || crypto.randomUUID(),
-      name,
-      slug,
-      plan,
-      status: editingOrg?.status || 'active',
-      memberCount: editingOrg?.memberCount || 1,
-      createdAt: editingOrg?.createdAt || new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      settings: {
-        ...PLAN_LIMITS[plan],
-      },
-    };
-
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    onSubmit(orgData);
-    setIsSubmitting(false);
-    setName('');
-    setSlug('');
-    setPlan('free');
-    onOpenChange(false);
+    onSubmit({ name, slug, plan });
   };
 
+  const handleOpenChange = (newOpen: boolean) => {
+    if (!newOpen) {
+      setName('');
+      setSlug('');
+      setPlan('free');
+    }
+    onOpenChange(newOpen);
+  };
+
+  // Update form when editingOrg changes
+  if (editingOrg && name !== editingOrg.name) {
+    setName(editingOrg.name);
+    setSlug(editingOrg.slug);
+    setPlan(editingOrg.plan);
+  }
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-md">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
@@ -123,6 +118,7 @@ export function CreateOrganizationDialog({
                   value={slug}
                   onChange={(e) => setSlug(e.target.value)}
                   required
+                  disabled={isEditing}
                 />
               </div>
             </div>
@@ -158,7 +154,7 @@ export function CreateOrganizationDialog({
           </div>
 
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            <Button type="button" variant="outline" onClick={() => handleOpenChange(false)}>
               Cancel
             </Button>
             <Button type="submit" disabled={isSubmitting || !name || !slug}>
