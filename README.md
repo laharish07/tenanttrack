@@ -143,7 +143,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 - Deployed on [Cloudflare Pages](https://pages.cloudflare.com/)
 - Backend powered by [Supabase](https://supabase.com/)
 - [Laharish S](https://github.com/laharish07)
-- Kathit Joshi(Me)
+- [Kathit Joshi](https://github.com/Kathitjoshi)
 
 ## 📞 Support
 
