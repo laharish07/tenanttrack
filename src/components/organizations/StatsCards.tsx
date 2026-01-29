@@ -1,5 +1,5 @@
 import { Organization } from '@/types/organization';
-import { Building2, Users, Crown, AlertTriangle } from 'lucide-react';
+import { Building2, Users, Crown } from 'lucide-react';
 
 interface StatsCardsProps {
   organizations: Organization[];
@@ -9,7 +9,6 @@ export function StatsCards({ organizations }: StatsCardsProps) {
   const totalOrgs = organizations.length;
   const totalMembers = organizations.reduce((sum, org) => sum + (org.member_count ?? 0), 0);
   const enterpriseOrgs = organizations.filter((org) => org.plan === 'enterprise').length;
-  const suspendedOrgs = organizations.filter((org) => org.status === 'suspended').length;
 
   const stats = [
     {
@@ -32,13 +31,6 @@ export function StatsCards({ organizations }: StatsCardsProps) {
       icon: Crown,
       color: 'text-warning',
       bgColor: 'bg-warning/10',
-    },
-    {
-      label: 'Suspended',
-      value: suspendedOrgs,
-      icon: AlertTriangle,
-      color: 'text-destructive',
-      bgColor: 'bg-destructive/10',
     },
   ];
 
